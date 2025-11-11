@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace DocumentProcessor.Infrastructure;
 
@@ -20,9 +21,9 @@ public static class InfrastructureServiceCollectionExtensions
         IConfiguration configuration)
     {
         // Add Entity Framework
-        // To switch to Local SQL Server, comment out the line below and uncomment the next line
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-        //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("LocalSqlServer")));
+        // To switch to Local PostgreSQL, comment out the line below and uncomment the next line
+        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        //services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("LocalSqlServer")));
 
         // Register repositories
         services.AddScoped<IDocumentRepository, DocumentRepository>();
